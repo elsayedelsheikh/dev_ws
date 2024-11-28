@@ -1,4 +1,4 @@
-FROM althack/ros2:rolling-dev 
+FROM althack/ros2:rolling-cuda-gazebo 
 
 # ** [Optional] Uncomment this section to install additional packages. **
 #

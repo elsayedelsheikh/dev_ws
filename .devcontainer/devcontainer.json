@@ -1,5 +1,6 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
+	"name": "ROS Rolling - gz Ionic",
 	"dockerFile": "Dockerfile",
 	"build": {
 		"args": {
@@ -14,11 +15,13 @@
 		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
 		"--volume=/mnt/wslg:/mnt/wslg",
-		"--ipc=host"
-		// uncomment to use intel iGPU
-		// "--device=/dev/dri"
+		"--ipc=host",
+		// Nvidia GPU support
+		"--runtime=nvidia",
+		"--gpus=all"
 	],
 	"containerEnv": {
+		"NVIDIA_DISABLE_REQUIRE": "1", // Skip CUDA version check if your host cuda version <12.6
 		"DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows
 		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
