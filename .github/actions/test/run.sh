@@ -2,5 +2,5 @@
 set -e
 
 ./setup.sh
-# ./build.sh
-# ./test.sh
+./build.sh
+./test.sh

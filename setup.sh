@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-vcs import < src/ros2.repos src
+vcs import src --input src/pacakges.repos
 sudo apt-get update
-rosdep update --rosdistro=$ROS_DISTRO
-rosdep install --from-paths src --ignore-src -y --rosdistro=$ROS_DISTRO
+rosdep update --rosdistro=rolling
+rosdep install --from-paths src --ignore-src -y --rosdistro=rolling

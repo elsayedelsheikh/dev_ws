@@ -2,30 +2,44 @@ name: ROS2 CI
 
 on:
   push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        ros_distribution:
-          - rolling
-
+  build:
+    runs-on: windows-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup ROS
-      uses: ros-tooling/setup-ros@0.7.12
-      with:
-        required-ros-distributions: ${{ matrix.ros_distribution }}
+      - name: Setup ROS
+        uses: ros-tooling/setup-ros@0.7.12
+        with:
+          required-ros-distributions: rolling
 
-    - name: build and test
-      uses: ros-tooling/action-ros-ci@0.4.3
-      with:
-        package-name: point_cloud_transport
-        target-ros2-distro: ${{ matrix.ros_distribution }}
-        vcs-repo-file-url: src/ros2.repos
+      - name: Clone repos
+        run: vcs import src --input https://gist.githubusercontent.com/ahcorde/10ae278905fe15414ef02b5a4c9de2f6/raw/f707b68267eb0bd419d3f1f0d940cabca531292c/ros2.repos
+
+      - name: Build ROS 2 workspace
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          colcon build --merge-install --packages-skip rosidl_rust
+
+
+  # lint:
+  #   name: ament_${{ matrix.linter }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #         linter: [cppcheck, cpplint, uncrustify, lint_cmake, xmllint, flake8, pep257]
+  #   steps:
+  #     - 
+  #       name: Checkout code
+  #       uses: actions/checkout@v4
+  #     -
+  #       name: Run linter
+  #       uses: ./.github/actions/lint/
+  #       env: 
+  #         LINTER: ${{ matrix.linter }}
