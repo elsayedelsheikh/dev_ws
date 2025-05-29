@@ -1,0 +1,13 @@
+repositories:
+  point_cloud_transport:
+    type: git
+    url: https://github.com/elsayedelsheikh/point_cloud_transport.git
+    version: feature/support_life_cycle_node
+  # nav2_minimal_turtlebot_simulation:
+  #   type: git
+  #   url: https://github.com/ros-navigation/nav2_minimal_turtlebot_simulation.git
+  #   version: main
+  # navigation2:
+  #   type: git
+  #   url: https://github.com/ros-navigation/navigation2.git
+  #   version: main

@@ -1,0 +1,31 @@
+name: ROS2 CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        ros_distribution:
+          - rolling
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup ROS
+      uses: ros-tooling/setup-ros@0.7.12
+      with:
+        required-ros-distributions: ${{ matrix.ros_distribution }}
+
+    - name: build and test
+      uses: ros-tooling/action-ros-ci@0.4.3
+      with:
+        package-name: point_cloud_transport
+        target-ros2-distro: ${{ matrix.ros_distribution }}
+        vcs-repo-file-url: src/ros2.repos
