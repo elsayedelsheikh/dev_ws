@@ -17,6 +17,11 @@ jobs:
         with:
           required-ros-distributions: rolling
 
+      - name: Install Additional Packages
+        run: |
+          pip install -U catkin_pkg colcon-common-extensions colcon-meson
+        shell: powershell
+
       - name: Clone repos
         run: vcs import src --input https://gist.githubusercontent.com/ahcorde/10ae278905fe15414ef02b5a4c9de2f6/raw/f707b68267eb0bd419d3f1f0d940cabca531292c/ros2.repos
 
